@@ -5,55 +5,126 @@ import type {
   ModelInfoResponse,
   HealthResponse
 } from '../types';
+import {
+  predictLocal,
+  fetchMetricsLocal,
+  fetchModelInfoLocal,
+  checkHealthLocal
+} from './localEngine';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
 
 export async function checkHealth(): Promise<HealthResponse> {
-  const resp = await fetch(`${API_BASE}/health`, {
-    headers: { 'Accept': 'application/json' }
-  });
-  if (!resp.ok) {
-    throw new Error(`Health check failed: HTTP ${resp.status}`);
+  if (!API_BASE) {
+    return checkHealthLocal();
   }
-  return resp.json();
+
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2500);
+
+    const resp = await fetch(`${API_BASE}/health`, {
+      headers: { 'Accept': 'application/json' },
+      signal: controller.signal
+    });
+    clearTimeout(timeoutId);
+
+    if (!resp.ok) {
+      return checkHealthLocal();
+    }
+    return await resp.json();
+  } catch {
+    return checkHealthLocal();
+  }
 }
 
 export async function fetchModelInfo(): Promise<ModelInfoResponse> {
-  const resp = await fetch(`${API_BASE}/api/v1/model-info`, {
-    headers: { 'Accept': 'application/json' }
-  });
-  if (!resp.ok) {
-    throw new Error(`Failed to fetch model info: HTTP ${resp.status}`);
+  if (!API_BASE) {
+    return fetchModelInfoLocal();
   }
-  return resp.json();
+
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2500);
+
+    const resp = await fetch(`${API_BASE}/api/v1/model-info`, {
+      headers: { 'Accept': 'application/json' },
+      signal: controller.signal
+    });
+    clearTimeout(timeoutId);
+
+    if (!resp.ok) {
+      return fetchModelInfoLocal();
+    }
+    return await resp.json();
+  } catch {
+    return fetchModelInfoLocal();
+  }
 }
 
 export async function fetchMetrics(): Promise<MetricsResponse> {
-  const resp = await fetch(`${API_BASE}/api/v1/metrics`, {
-    headers: { 'Accept': 'application/json' }
-  });
-  if (!resp.ok) {
-    throw new Error(`Failed to fetch model metrics: HTTP ${resp.status}`);
+  if (!API_BASE) {
+    return fetchMetricsLocal();
   }
-  return resp.json();
+
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2500);
+
+    const resp = await fetch(`${API_BASE}/api/v1/metrics`, {
+      headers: { 'Accept': 'application/json' },
+      signal: controller.signal
+    });
+    clearTimeout(timeoutId);
+
+    if (!resp.ok) {
+      return fetchMetricsLocal();
+    }
+    return await resp.json();
+  } catch {
+    return fetchMetricsLocal();
+  }
 }
 
 export async function predictConcreteStrength(mix: ConcreteMixInput): Promise<PredictionResponse> {
-  const resp = await fetch(`${API_BASE}/api/v1/predict`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    },
-    body: JSON.stringify(mix)
-  });
-
-  const data = await resp.json();
-  if (!resp.ok) {
-    const errorMsg = data.message || data.detail || data.error || `Prediction failed: HTTP ${resp.status}`;
-    throw new Error(errorMsg);
+  if (!API_BASE) {
+    return predictLocal(mix);
   }
-  return data;
+
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3500);
+
+    const resp = await fetch(`${API_BASE}/api/v1/predict`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(mix),
+      signal: controller.signal
+    });
+    clearTimeout(timeoutId);
+
+    const data = await resp.json();
+    if (!resp.ok) {
+      // If it is a domain validation error (e.g., negative value or zero binder), throw it so user gets feedback
+      if (resp.status === 400 || resp.status === 422) {
+        const errorMsg = data.message || data.detail || data.error || `Validation error: HTTP ${resp.status}`;
+        throw new Error(errorMsg);
+      }
+      // If server has a 500/503 error, fallback to embedded client engine
+      return predictLocal(mix);
+    }
+    return data;
+  } catch (err: any) {
+    // Re-throw genuine client validation errors
+    if (err.message && (err.message.includes('greater than zero') || err.message.includes('non-negative') || err.message.includes('Validation error'))) {
+      throw err;
+    }
+    // Network failure or serverless timeout -> seamless fallback to local engine
+    return predictLocal(mix);
+  }
 }
 
 export function generateCSVReport(prediction: PredictionResponse): string {

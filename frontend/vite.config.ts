@@ -17,9 +17,12 @@ export default defineConfig({
           if (id.includes('node_modules/lucide-react')) {
             return 'vendor-icons'
           }
+          if (id.includes('embeddedModel') || id.includes('held_out_predictions')) {
+            return 'model-artifacts'
+          }
         },
       },
     },
-    chunkSizeWarningLimit: 600,
+    chunkSizeWarningLimit: 1000,
   },
 })

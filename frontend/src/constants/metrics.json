@@ -1,0 +1,237 @@
+{
+  "model_version": "1.0.0",
+  "selected_model": "Extra Trees",
+  "trained_timestamp": "2026-10-14T19:54:37.779287+00:00",
+  "random_seed": 42,
+  "dataset_info": {
+    "source": "UCI Machine Learning Repository (Concrete Compressive Strength)",
+    "donor": "Prof. I-Cheng Yeh",
+    "total_samples": 1240,
+    "train_samples": 992,
+    "test_samples": 248,
+    "test_ratio": 0.2
+  },
+  "selected_model_metrics": {
+    "test_r2": 0.9465,
+    "test_rmse": 4.9787,
+    "test_mae": 3.2252,
+    "cv_r2_mean": 0.9389,
+    "cv_rmse_mean": 5.4709
+  },
+  "model_comparisons": [
+    {
+      "model_name": "Linear Regression",
+      "is_best": false,
+      "cv_r2": 0.4821,
+      "cv_rmse": 15.9304,
+      "test_r2": 0.54,
+      "test_rmse": 14.599,
+      "test_mae": 11.2526
+    },
+    {
+      "model_name": "Random Forest",
+      "is_best": false,
+      "cv_r2": 0.9109,
+      "cv_rmse": 6.5849,
+      "test_r2": 0.9187,
+      "test_rmse": 6.1371,
+      "test_mae": 4.2197
+    },
+    {
+      "model_name": "Extra Trees",
+      "is_best": true,
+      "cv_r2": 0.9389,
+      "cv_rmse": 5.4709,
+      "test_r2": 0.9465,
+      "test_rmse": 4.9787,
+      "test_mae": 3.2252
+    },
+    {
+      "model_name": "HistGradientBoosting",
+      "is_best": false,
+      "cv_r2": 0.9325,
+      "cv_rmse": 5.7308,
+      "test_r2": 0.9434,
+      "test_rmse": 5.1211,
+      "test_mae": 3.6011
+    }
+  ],
+  "feature_names": [
+    "cement",
+    "slag",
+    "fly_ash",
+    "water",
+    "superplasticizer",
+    "coarse_aggregate",
+    "fine_aggregate",
+    "age"
+  ],
+  "target_name": "compressive_strength",
+  "feature_importances": {
+    "cement": 0.3175,
+    "slag": 0.074,
+    "fly_ash": 0.0833,
+    "water": 0.0929,
+    "superplasticizer": 0.1172,
+    "coarse_aggregate": 0.0421,
+    "fine_aggregate": 0.0509,
+    "age": 0.2221
+  },
+  "features_metadata": {
+    "cement": {
+      "label": "Cement",
+      "unit": "kg/m\u00b3",
+      "category": "cementitious",
+      "min": 100.0,
+      "max": 550.0,
+      "step": 1.0,
+      "description": "Ordinary Portland Cement (OPC) content per cubic meter."
+    },
+    "slag": {
+      "label": "Blast Furnace Slag",
+      "unit": "kg/m\u00b3",
+      "category": "cementitious",
+      "min": 0.0,
+      "max": 360.0,
+      "step": 1.0,
+      "description": "Ground granulated blast-furnace slag (GGBS), supplementary cementitious material."
+    },
+    "fly_ash": {
+      "label": "Fly Ash",
+      "unit": "kg/m\u00b3",
+      "category": "cementitious",
+      "min": 0.0,
+      "max": 210.0,
+      "step": 1.0,
+      "description": "Pulverized fuel ash (class F or C pozzolan) replacing cement."
+    },
+    "water": {
+      "label": "Water",
+      "unit": "kg/m\u00b3",
+      "category": "water_admixture",
+      "min": 120.0,
+      "max": 250.0,
+      "step": 0.5,
+      "description": "Total effective batch water per cubic meter of concrete."
+    },
+    "superplasticizer": {
+      "label": "Superplasticizer",
+      "unit": "kg/m\u00b3",
+      "category": "water_admixture",
+      "min": 0.0,
+      "max": 35.0,
+      "step": 0.1,
+      "description": "High-range water-reducing admixture (HRWR) for rheology & workability."
+    },
+    "coarse_aggregate": {
+      "label": "Coarse Aggregate",
+      "unit": "kg/m\u00b3",
+      "category": "aggregates",
+      "min": 800.0,
+      "max": 1200.0,
+      "step": 5.0,
+      "description": "Crushed stone or gravel (nominal maximum aggregate size typically 20 mm)."
+    },
+    "fine_aggregate": {
+      "label": "Fine Aggregate",
+      "unit": "kg/m\u00b3",
+      "category": "aggregates",
+      "min": 590.0,
+      "max": 1000.0,
+      "step": 5.0,
+      "description": "River sand or manufactured fine aggregate (passing 4.75 mm sieve)."
+    },
+    "age": {
+      "label": "Curing Age",
+      "unit": "days",
+      "category": "curing",
+      "min": 1,
+      "max": 365,
+      "step": 1,
+      "description": "Age of specimen under standard moisture curing (typically 3, 7, 14, 28, 56, 90, or 365 days)."
+    }
+  },
+  "statistics": {
+    "cement": {
+      "min": 102.0,
+      "max": 540.0,
+      "mean": 294.65314516129035,
+      "std": 107.91194417818014,
+      "median": 290.275,
+      "q25": 201.95,
+      "q75": 375.85
+    },
+    "slag": {
+      "min": 0.0,
+      "max": 359.4,
+      "mean": 72.00899193548386,
+      "std": 83.00830644005904,
+      "median": 24.0,
+      "q25": 0.0,
+      "q75": 139.525
+    },
+    "fly_ash": {
+      "min": 0.0,
+      "max": 200.1,
+      "mean": 50.00197580645161,
+      "std": 60.329712747878595,
+      "median": 0.0,
+      "q25": 0.0,
+      "q75": 103.075
+    },
+    "water": {
+      "min": 95.3,
+      "max": 247.0,
+      "mean": 179.50157258064516,
+      "std": 23.636144269464324,
+      "median": 182.0,
+      "q25": 162.9,
+      "q75": 192.0
+    },
+    "superplasticizer": {
+      "min": 0.0,
+      "max": 32.2,
+      "mean": 6.102826612903226,
+      "std": 5.650487921515086,
+      "median": 6.0,
+      "q25": 0.0,
+      "q75": 10.0
+    },
+    "coarse_aggregate": {
+      "min": 801.0,
+      "max": 1145.0,
+      "mean": 979.3307661290322,
+      "std": 76.3402275846575,
+      "median": 974.0,
+      "q25": 932.0,
+      "q75": 1043.6
+    },
+    "fine_aggregate": {
+      "min": 583.5,
+      "max": 992.6,
+      "mean": 765.7067338709677,
+      "std": 81.98244480910698,
+      "median": 774.0,
+      "q25": 709.3,
+      "q75": 818.6500000000001
+    },
+    "age": {
+      "min": 1.0,
+      "max": 365.0,
+      "mean": 42.44193548387097,
+      "std": 58.72881150277538,
+      "median": 28.0,
+      "q25": 7.0,
+      "q75": 56.0
+    },
+    "compressive_strength": {
+      "min": 2.331807832,
+      "max": 92.0,
+      "mean": 42.2932104039492,
+      "std": 22.105162847327005,
+      "median": 38.73476168,
+      "q25": 25.50371724,
+      "q75": 55.55108132
+    }
+  }
+}
