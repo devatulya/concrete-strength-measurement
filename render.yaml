@@ -1,0 +1,16 @@
+services:
+  # FastAPI Backend Service
+  - type: web
+    name: concrete-strength-api
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.8
+      - key: CONCRETE_MODEL_PATH
+        value: ml/models/concrete_model.joblib
+      - key: CONCRETE_METRICS_PATH
+        value: ml/artifacts/metrics.json
+      - key: CONCRETE_HELD_OUT_PATH
+        value: ml/artifacts/held_out_predictions.json

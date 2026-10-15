@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/
+.venv/
+env/
+venv/
+ENV/
+
+# Node & Frontend
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/dist-ssr/
+*.local
+
+# Environment variables
+.env
+.env.production
+.env.local
+
+# IDE, OS & Agent internal metadata
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+.agents/
+.gemini/
+.antigravity/
+
+# Temporary / Scratch outputs
+scratch/
