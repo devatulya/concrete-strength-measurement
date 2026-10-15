@@ -1,3 +1,12 @@
+---
+title: Concrete Strength Predictor API
+emoji: 🏗️
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 7860
+---
+
 # Concrete Strength Predictor (ConcreteIQ)
 > **B.Tech 3rd Year Civil Engineering Project**  
 > An end-to-end full-stack machine learning web application predicting concrete compressive strength ($f_c$ in MPa) from mix proportions and curing age using an authentic trained regression ensemble.

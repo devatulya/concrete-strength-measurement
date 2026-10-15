@@ -1,24 +1,29 @@
-# Multi-stage build for Concrete Strength Predictor Backend
+# Concrete Strength Predictor Backend
 FROM python:3.11-slim
 
 WORKDIR /app
 
-# Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    PORT=8000
+    PORT=7860
 
-# Install dependencies
+# Install Python dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application files
-COPY backend/ ./backend/
-COPY ml/ ./ml/
-COPY data/ ./data/
+# Create non-root user (required for Hugging Face Spaces sandbox)
+RUN useradd -m -u 1000 user
+USER user
+ENV HOME=/home/user \
+    PATH=/home/user/.local/bin:$PATH
 
-# Expose port
-EXPOSE 8000
+WORKDIR $HOME/app
+
+# Copy project files with proper user ownership
+COPY --chown=user . $HOME/app
+
+# Expose port 7860 (Hugging Face default)
+EXPOSE 7860
 
 # Run FastAPI backend with Uvicorn
-CMD ["sh", "-c", "uvicorn backend.main:app --host 0.0.0.0 --port ${PORT}"]
+CMD ["sh", "-c", "uvicorn backend.main:app --host 0.0.0.0 --port ${PORT:-7860}"]
