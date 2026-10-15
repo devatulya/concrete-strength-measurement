@@ -10,7 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@rolldown/binding-win32-x64-msvc": "^1.2.14",
     "autoprefixer": "^10.6.1",
     "lucide-react": "^1.57.0",
     "postcss": "^8.5.30",
